@@ -85,11 +85,15 @@ var Microblog = /** @class */ (function () {
     };
     return Microblog;
 }());
-var p1 = new Postagem(1, 'Sudo apt get update', 0);
-var p2 = new Postagem(2, 'Sudo apt get upgrade', 0);
-var p3 = new Postagem(3, 'Reboot system now', 0);
+var p1 = new Postagem(1, '\nSudo apt get update\nSudo apt get update\nSudo apt get update', 0);
+var p2 = new Postagem(2, '\nSudo apt get upgrade\nSudo apt get upgrade\nSudo apt get upgrade', 0);
+var p3 = new Postagem(3, '\nReboot system now\nReboot system now\nReboot system now', 0);
 var m1 = new Microblog();
 m1.incluir(p1);
 m1.incluir(p2);
 m1.incluir(p3);
-console.log(m1.postagens[3].toString());
+m1.curtir(1);
+for (var i = 0; i < 50; i++) {
+    m1.curtir(2);
+}
+console.log(m1.toString());

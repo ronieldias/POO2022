@@ -1,25 +1,32 @@
 /*
-- Não haverá erro na compilação somente da classe, entretanto todas as referências para quantReservas 
-serão sublinhadas em vermelho como aviso para a inicialização.
-- No caso da instânciação de um objeto do tipo Hotel também não haverá erro de compilação.
-- Entretanto, caso o método adicionaReserva() seja chamado, haverá sim um erro de compilação de fato,
-pois a linguagem obriga a utilização do "this" para fazer referência à atributos da classe.
-- Entrtanto², caso o this seja adicionado, o método estará interagindo com um atributo de
-tipo indefinido, incrementando a ele o valor inteiro +1, que agora será tratado pelo compilador como
-tipo inteiro, porém não numérico (NaN), compila sem erros, porém com falha na operação matemática.
+Sim haverá dois erros de compilação:
+    - O primeiro em virtude da não inicializaçao do atributo quantReservas e inexistência de um construtor 
+    para que o atributo possa ser inicializado na instanciação de um objeto do tipo Hotel.
+    - O segundo no método adicionarReserva(), onde quantReservas deveria ser precedido do 'this', para refe-
+    renciar o atributo da própria classe.
 */
 
-/*
+/* IMPLEMENTAÇÃO ORIGINAL
+class Hotel {
+    quantReservas : number;
+    //quantReservas : number = 0;
+    
+    adicionarReserva() : void {
+        //this.quantReservas++;
+        quantReservas++;
+    }
+}
+*/
+
+// IMPLEMENTAÇÃO CORRIGIDA
 class Hotel {
     quantReservas : number = 0;
-    //quantReservas : number;
     
     adicionarReserva() : void {
         this.quantReservas++;
-        //quantReservas++;
     }
 }
-
+/*
 let h : Hotel = new Hotel();
 h.adicionarReserva();
 console.log(h.quantReservas);

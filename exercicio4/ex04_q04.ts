@@ -42,7 +42,7 @@ c1 = c2;
 c3 = c1;
 c1.sacar(10);
 
-c1.transferir(c2,50);
+c1.transferir(c2,50); //transferindo para si mesmo
 console.log(c1.consultarSaldo());
 console.log(c2.consultarSaldo());
 console.log(c3.consultarSaldo());

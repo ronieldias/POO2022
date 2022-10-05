@@ -95,5 +95,9 @@ function totalizacoes() {
     console.log('Numero de contas: ' + b.quantidadeContas());
     console.log('Dinheiro total em contas: ' + b.totalDinheiroContas());
     console.log('Media saldo em conras: ' + b.mediaSaldoContas());
-    console.log(b.contas);
+    console.log('\nTODAS AS CONTAS');
+    for (var _i = 0, _a = b.contas; _i < _a.length; _i++) {
+        var conta = _a[_i];
+        console.log("[Conta] -> Numero: ".concat(conta.numero, ", Saldo: R$ ").concat(conta.saldo));
+    }
 }

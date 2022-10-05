@@ -12,3 +12,5 @@ class Hotel {
 
 let hotel : Hotel = new Hotel(2);
 console.log(hotel.quantReservas);
+
+export{Hotel}

@@ -103,5 +103,10 @@ function totalizacoes(): void{
     console.log('Numero de contas: ' + b.quantidadeContas());
     console.log('Dinheiro total em contas: ' + b.totalDinheiroContas());
     console.log('Media saldo em conras: ' + b.mediaSaldoContas());
-    console.log(b.contas);   
+    
+    console.log('\nTODAS AS CONTAS');
+    
+    for(let conta of b.contas){
+        console.log(`[Conta] -> Numero: ${conta.numero}, Saldo: R$ ${conta.saldo}`);
+    }   
 }

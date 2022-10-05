@@ -90,17 +90,17 @@ class Microblog {
         let concatena: string = '';
         for (let i: number = 0; i < this.postagens.length; i++) {
             concatena += '[ID] ' + this.postagens[i].id + '\n' +
-                '[Texto] ' + this.postagens[i].texto + '\n' +
-                '[Likes] ' + this.postagens[i].quantidadeCurtidas + '\n' +
-                '*********************************************\n'
+                         '[Texto] ' + this.postagens[i].texto + '\n' +
+                         '[Likes] ' + this.postagens[i].quantidadeCurtidas + '\n' +
+                         '*********************************************\n'
         }
         return concatena;
     }
 }
 
-let p1: Postagem = new Postagem(1, 'Sudo apt get update', 0);
-let p2: Postagem = new Postagem(2, 'Sudo apt get upgrade', 0);
-let p3: Postagem = new Postagem(3, 'Reboot system now', 0);
+let p1: Postagem = new Postagem(1, '\nSudo apt get update\nSudo apt get update\nSudo apt get update', 0);
+let p2: Postagem = new Postagem(2, '\nSudo apt get upgrade\nSudo apt get upgrade\nSudo apt get upgrade', 0);
+let p3: Postagem = new Postagem(3, '\nReboot system now\nReboot system now\nReboot system now', 0);
 
 let m1: Microblog = new Microblog();
 
@@ -108,5 +108,9 @@ m1.incluir(p1);
 m1.incluir(p2);
 m1.incluir(p3);
 
+m1.curtir(1);
+for (let i = 0; i<50; i++){
+    m1.curtir(2);
+}
 
-console.log(m1.postagens[3].toString());
+console.log(m1.toString());
