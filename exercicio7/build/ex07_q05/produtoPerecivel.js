@@ -2,43 +2,42 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProdutoPerecivel = void 0;
 const produto_1 = require("./produto");
-const tDate_1 = require("./tDate");
+//import { tDate } from "./tDate";
 class ProdutoPerecivel extends produto_1.Produto {
     _dataValidade;
     constructor(id, descricao, quantidade, valor, validade) {
         super(id, descricao, quantidade, valor);
-        this._dataValidade = validade;
+        this._dataValidade = new Date(validade);
     }
     get getDataValidade() {
-        return this._dataValidade;
+        return this._dataValidade.toString();
     }
-    get getValidadeStringBR() {
-        return this.getDataValidade.padraoBR();
-    }
-    estaValido() {
-        let hoje = new tDate_1.tDate();
-        if (this.getDataValidade.getAno > hoje.getAno) {
-            return true;
-        }
-        else if (this.getDataValidade.getAno < hoje.getAno) {
-            return false;
-        }
-        else {
-            if (this.getDataValidade.getMes > hoje.getMes) {
+    /*
+        public estaValido(): boolean{
+            let hoje : tDate = new tDate();
+
+            if(this.getDataValidade.getAno > hoje.getAno){
                 return true;
-            }
-            else if (this.getDataValidade.getMes < hoje.getMes) {
+            }else if(this.getDataValidade.getAno < hoje.getAno){
                 return false;
-            }
-            else {
-                if (this.getDataValidade.getDia >= hoje.getDia) {
+            }else{
+                if(this.getDataValidade.getMes > hoje.getMes){
                     return true;
-                }
-                else {
+                }else if(this.getDataValidade.getMes < hoje.getMes){
                     return false;
+                }else{
+                    if(this.getDataValidade.getDia >= hoje.getDia){
+                        return true;
+                    }else{
+                        return false;
+                    }
                 }
             }
         }
+    */
+    estaValido() {
+        let hoje = new Date();
+        return hoje <= this._dataValidade;
     }
     repor(quantidade) {
         if (this.estaValido() == true) {

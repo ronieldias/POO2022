@@ -1,43 +1,23 @@
 import { Produto } from "./produto";
-import { tDate } from "./tDate";
 
 class ProdutoPerecivel extends Produto{
-    private _dataValidade: tDate;
+    private _dataValidade: Date;
 
-    constructor(id: string, descricao: string, quantidade: number, valor: number, validade: tDate){
+    constructor(id: string, descricao: string, quantidade: number, valor: number, validade: string){
         super(id, descricao, quantidade, valor);
-        this._dataValidade = validade;
+        this._dataValidade = new Date(validade);
     }
 
-    public get getDataValidade(): tDate {
-        return this._dataValidade;
-    }
-    public get getValidadeStringBR(): string{
-        return this.getDataValidade.padraoBR();
-    }
-
-    public estaValido(): boolean{
-        let hoje : tDate = new tDate();
-
-        if(this.getDataValidade.getAno > hoje.getAno){
-            return true;
-        }else if(this.getDataValidade.getAno < hoje.getAno){
-            return false;
-        }else{
-            if(this.getDataValidade.getMes > hoje.getMes){
-                return true;
-            }else if(this.getDataValidade.getMes < hoje.getMes){
-                return false;
-            }else{
-                if(this.getDataValidade.getDia >= hoje.getDia){
-                    return true;
-                }else{
-                    return false;
-                }
-            }
-        }  
+    public get getDataValidade(): string {
+        return this._dataValidade.toString();
     }
     
+    public estaValido(): boolean{
+        let hoje = new Date();
+
+        return hoje <= this._dataValidade;
+    }
+
     public repor(quantidade: number): void{
         if(this.estaValido() == true){
             this.setQuantidadeEstoque = this.getQuantidadeEstoque + quantidade;
