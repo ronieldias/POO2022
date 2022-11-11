@@ -1,42 +1,23 @@
 "use strict";
-/*
-    Quando o método transferir() chama o método sacar() e neste é lançada uma exceção,
-    assim como as linhas de código restantes no método sacar() não são executadas, o
-    mesmo também ocorre para as linhas restantes do método transferir(), logo não houve
-    a conclusão do saque e nem do déposito.
-*/
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Conta = void 0;
-class Conta {
-    _numero;
-    _saldo;
-    constructor(numero, saldoInicial) {
-        this._numero = numero;
-        this._saldo = saldoInicial;
+const conta_1 = require("./conta");
+/*
+    Situação das contas{
+        Conta 001, Saldo 2500.
+        Conta 002, Saldo 100.
     }
-    get saldo() {
-        return this._saldo;
+    Operação{
+        Transferir 3000 de Conta 001 para Conta 002 chamando 'conta.transferir()'.
     }
-    set saldo(valor) {
-        this._saldo += valor;
-    }
-    sacar(valor) {
-        if (this.saldo < valor) {
-            throw new Error('Saldo insuficiente');
-        }
-        this._saldo = this._saldo - valor;
-    }
-    depositar(valor) {
-        this.saldo = this.saldo + valor;
-    }
-    transferir(conta, valor) {
-        conta.sacar(valor);
-        conta.depositar(valor);
-    }
-}
-exports.Conta = Conta;
-let c1 = new Conta('001', 2500);
-let c2 = new Conta('002', 100);
-console.log(c1.saldo);
-c1.transferir(c2, 3000);
-console.log(c1.saldo);
+    Na conta de origem o método 'transferir()' chama o método 'sacar()' e por não haver saldo
+    suficiente, é lançada uma exceção. Assim como as linhas de código restantes no método sacar()
+    não são executadas, o mesmo também ocorre para o método transferir(), logo não houve a conclusão
+    do saque na conta origem e nem do déposito na conta destino.
+*/
+let conta1 = new conta_1.Conta('001', 2500);
+let conta2 = new conta_1.Conta('002', 100);
+console.log('C001 Saldo:', conta1.getSaldo);
+console.log('C002 Saldo:', conta2.getSaldo);
+conta1.transferir(conta2, 3000); //lançada a exceção
+console.log('C001 Saldo:', conta1.getSaldo);
+console.log('C002 Saldo:', conta2.getSaldo);
