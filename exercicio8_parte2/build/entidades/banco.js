@@ -23,17 +23,10 @@ class Banco {
                 break;
             }
         }
-        try {
-            if (indice == -1) {
-                throw new contaInexistenteErro_1.ContaInexistenteErro('Conta inexistente'); //possivel exceção
-            }
+        if (indice == -1) {
+            throw new contaInexistenteErro_1.ContaInexistenteErro('Conta inexistente'); //exceção
         }
-        catch (e) {
-            console.log(e.message);
-        }
-        finally {
-            return indice;
-        }
+        return indice;
     }
     // *** demais métodos ***
     consultar(numero) {
@@ -45,32 +38,43 @@ class Banco {
         catch (e) {
             console.log(e.message);
         }
-        finally {
-            return contaConsultada;
-        }
+        return contaConsultada;
     }
     inserir(conta) {
         if (!this.contaExiste(conta.getNumero)) {
             this._contas.push(conta);
         }
+        //lançar execeção!
     }
     alterar(conta) {
-        let indice = this.consultarPorIndice(conta.getNumero); //exceção
-        if (indice != -1) { //gambiarra
-            this._contas[indice] = conta; //se a conta nao existe, nao era pra alterar, ta doido?? loucuragem demais
+        try {
+            let indice = this.consultarPorIndice(conta.getNumero);
+            this._contas[indice] = conta;
+        }
+        catch (e) {
+            if (e instanceof aplicacaoErro_1.AplicacaoErro) {
+                console.log(e.message);
+            }
         }
     }
     excluir(numero) {
-        let indice = this.consultarPorIndice(numero); //exceção
-        for (let i = indice; i < this._contas.length; i++) {
-            this._contas[i] = this._contas[i + 1];
+        try {
+            let indice = this.consultarPorIndice(numero); //exceção
+            for (let i = indice; i < this._contas.length; i++) {
+                this._contas[i] = this._contas[i + 1];
+            }
+            this._contas.pop();
         }
-        this._contas.pop();
+        catch (e) {
+            if (e instanceof aplicacaoErro_1.AplicacaoErro) {
+                console.log(e.message);
+            }
+        }
     }
     depositar(numero, valor) {
         try {
-            let indice = this.consultarPorIndice(numero); //exceção        
-            this._contas[indice].depositar(valor);
+            let indice = this.consultarPorIndice(numero); //exceção      
+            this._contas[indice].depositar(valor); //exceção
         }
         catch (e) {
             if (e instanceof aplicacaoErro_1.AplicacaoErro) {
@@ -92,13 +96,6 @@ class Banco {
         }
     }
     renderJuros(numero) {
-        /*
-            let indice :number = this.consultarPorIndice(numero);
-
-            if(this._contas[indice] instanceof Poupanca){
-                (<Poupanca> this._contas[indice]).renderJuros();
-            }
-        */
         try {
             let indice = this.consultarPorIndice(numero); //exceção
             if (this._contas[indice] instanceof contaPoupanca_1.Poupanca) {

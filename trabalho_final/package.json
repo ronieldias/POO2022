@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "line-reader-sync": "^0.1.0",
+    "moment": "^2.29.4",
+    "prompt-sync": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.14",
+    "@types/prompt-sync": "^4.2.0"
+  }
+}

@@ -17,7 +17,7 @@ class Banco {
         return false;
     }
 
-    private consultarPorIndice(numero: String): number { //OK
+    private consultarPorIndice(numero: string): number { //OK
         let indice: number = -1;
 
         for (let i: number = 0; i < this._contas.length; i++) {
@@ -27,67 +27,69 @@ class Banco {
             }
         }
 
-        try {
-            if (indice == -1) {
-                throw new ContaInexistenteErro('Conta inexistente'); //possivel exceção
-            }
-        } catch (e: any) {
-            console.log(e.message);
-        } finally {
-            return indice;
+        if (indice == -1) {
+            throw new ContaInexistenteErro('Conta inexistente'); //exceção
         }
+        return indice;
     }
 
     // *** demais métodos ***
 
     public consultar(numero: string): Conta { //OK
         let contaConsultada!: Conta;
-
         try {
             let indice = this.consultarPorIndice(numero); //possivel exceção
-            contaConsultada = this._contas[indice]
+            contaConsultada = this._contas[indice];
         } catch (e: any) {
             console.log(e.message);
-        } finally {
-            return contaConsultada;
         }
+        return contaConsultada;
     }
 
     public inserir(conta: Conta): void { //OK
         if (!this.contaExiste(conta.getNumero)) {
             this._contas.push(conta);
         }
+        //lançar execeção!
     }
 
     public alterar(conta: Conta): void { //OK?
-        let indice: number = this.consultarPorIndice(conta.getNumero); //exceção
-        if (indice != -1) { //gambiarra
-            this._contas[indice] = conta; //se a conta nao existe, nao era pra alterar, ta doido?? loucuragem demais
+        try {
+            let indice: number = this.consultarPorIndice(conta.getNumero);
+            this._contas[indice] = conta;
+        } catch (e: any) {
+            if (e instanceof AplicacaoErro) {
+                console.log(e.message);
+            }
         }
-
     }
 
     public excluir(numero: string): void { //OK
-        let indice: number = this.consultarPorIndice(numero); //exceção
-
-        for (let i: number = indice; i < this._contas.length; i++) {
-            this._contas[i] = this._contas[i + 1];
-        }
-        this._contas.pop();
-    }
-
-    public depositar(numero: string, valor: number): void {
         try {
-            let indice: number = this.consultarPorIndice(numero); //exceção        
-            this._contas[indice].depositar(valor);
-        } catch(e: any) {
+            let indice: number = this.consultarPorIndice(numero); //exceção
+            for (let i: number = indice; i < this._contas.length; i++) {
+                this._contas[i] = this._contas[i + 1];
+            }
+            this._contas.pop();
+        } catch (e : any) {
             if(e instanceof AplicacaoErro){
                 console.log(e.message);
             }
         }
     }
 
-    public sacar(numero: string, valor: number): void {
+    public depositar(numero: string, valor: number): void {
+        try {
+            let indice: number = this.consultarPorIndice(numero); //exceção      
+            this._contas[indice].depositar(valor); //exceção
+        } catch (e: any) {
+            if (e instanceof AplicacaoErro) {
+                console.log(e.message);
+            }
+        }
+    }
+
+    public sacar(numero: string, valor: number): void {//FAZER TRY CATCH?
         let contaConsultada = this.consultar(numero);
 
         if (contaConsultada != null) {
@@ -104,23 +106,16 @@ class Banco {
         }
     }
 
-    public renderJuros(numero: string): void{ //OK?
-        /*
-            let indice :number = this.consultarPorIndice(numero);
-
-            if(this._contas[indice] instanceof Poupanca){
-                (<Poupanca> this._contas[indice]).renderJuros(); 
-            }
-        */
-        try{
-            let indice :number = this.consultarPorIndice(numero); //exceção
-            if(this._contas[indice] instanceof Poupanca){
-                (<Poupanca> this._contas[indice]).renderJuros(); 
-            }else{
+    public renderJuros(numero: string): void { //OK?
+        try {
+            let indice: number = this.consultarPorIndice(numero); //exceção
+            if (this._contas[indice] instanceof Poupanca) {
+                (<Poupanca>this._contas[indice]).renderJuros();
+            } else {
                 console.log('A conta informada deve ser uma Poupança.'); //pode isso, Arnaldo?
             }
-        }catch(e: any){
-            if(e instanceof AplicacaoErro){
+        } catch (e: any) {
+            if (e instanceof AplicacaoErro) {
                 console.log(e.message);
             }
         }

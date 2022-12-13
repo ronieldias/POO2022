@@ -1,15 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Conta = void 0;
+const aplicacaoErro_1 = require("../excecoes/aplicacaoErro");
+const valorInvalidoErro_1 = require("../excecoes/valorInvalidoErro");
 class Conta {
     _numero;
-    _saldo;
-    constructor(numero, saldoInicial) {
-        if (saldoInicial < 0) {
-            throw new Error('O saldo inicial não pode ser negativo');
-        }
+    _saldo = 0;
+    constructor(numero, saldoInicial = 0) {
         this._numero = numero;
-        this._saldo = saldoInicial;
+        //this.validarValor(saldoInicial);
+        //this._saldo = saldoInicial;
+        try {
+            this.depositar(saldoInicial);
+        }
+        catch (e) {
+            if (e instanceof aplicacaoErro_1.AplicacaoErro) {
+                console.log(e.message);
+            }
+        }
     }
     get getSaldo() {
         return this._saldo;
@@ -20,19 +28,20 @@ class Conta {
     get getNumero() {
         return this._numero;
     }
-    sacar(valor) {
-        if (valor < 0) {
-            throw new Error('Nao é possível sacar valores negativos');
+    validarValor(valor) {
+        if (valor <= 0) {
+            throw new valorInvalidoErro_1.ValorInvalidoErro('Valor invalido.');
         }
+    }
+    sacar(valor) {
+        this.validarValor(valor);
         if (this.getSaldo < valor) {
             throw new Error('Saldo insuficiente');
         }
         this.setSaldo = this.getSaldo - valor;
     }
     depositar(valor) {
-        if (valor < 0) {
-            throw new Error('Não é possivel depositar valores negativos');
-        }
+        this.validarValor(valor);
         this.setSaldo = this.getSaldo + valor;
     }
     transferir(conta, valor) {
