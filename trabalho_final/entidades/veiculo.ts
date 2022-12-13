@@ -77,7 +77,6 @@ class Veiculo {
     }
 
     public retirar(dataHora: any, valorHora: number) {
-        console.log('1', this.getEstacionado);
         if (!this.getEstacionado) {
             throw new VeiculoNaoEstacionadoErro("Erro: veiculo nao estacionado.");//excecao
         }
