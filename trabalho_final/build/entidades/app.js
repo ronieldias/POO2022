@@ -76,25 +76,25 @@ function estacionar() {
     console.log('------------------------------------------------------------');
     console.log('               *** ESTACIONAR VEICULO ***');
     console.log('------------------------------------------------------------');
-    idCont++;
-    let veiculoAux = instanciarVeiculo(idCont);
-    console.log();
-    let resp = input('CONFIRMAR? <S> para SIM <outra tecla> para NAO: ').toUpperCase();
-    if (resp == 'S') {
-        try {
+    try {
+        idCont++;
+        let veiculoAux = instanciarVeiculo(idCont); //captura
+        console.log();
+        let resp = input('CONFIRMAR? <S> para SIM <outra tecla> para NAO: ').toUpperCase();
+        if (resp == 'S') {
             e.estacionar(veiculoAux); //captura
             console.log("Estacionado com sucesso!");
         }
-        catch (e) {
-            if (e instanceof aplicacaoErro_1.AplicacaoErro) {
-                idCont--;
-                console.log(e.message);
-            }
+        else {
+            idCont--;
+            console.log("Cancelado!");
         }
     }
-    else {
-        idCont--;
-        console.log("Cancelado!");
+    catch (e) {
+        if (e instanceof aplicacaoErro_1.AplicacaoErro) {
+            idCont--;
+            console.log(e.message);
+        }
     }
     console.log('------------------------------------------------------------');
 }
@@ -269,6 +269,7 @@ function detalharVeiculo(veiculo) {
     console.log('ID:', veiculo.getId);
     console.log('Placa:', veiculo.getPlaca);
     console.log('Modelo:', veiculo.getModelo);
+    console.log('Ano:', veiculo.getAno);
     console.log('Data e hora de entrada:', veiculo.getDataHoraEntrada);
     if (veiculo.getDataHoraSaida) {
         console.log('Data e hora saída:', veiculo.getDataHoraSaida);
@@ -280,7 +281,7 @@ function detalharVeiculo(veiculo) {
         console.log('Valor: R$', veiculo.getValor);
     }
     console.log('Pagou:', veiculo.getPagou);
-    console.log('Estacionado: ', veiculo.getEstacionado);
+    console.log('Estacionado:', veiculo.getEstacionado);
     if (veiculo instanceof veiculoGoverno_1.VeiculoGoverno) {
         console.log('                 *[VEICULO DO GOVERNO]*');
     }
@@ -300,16 +301,16 @@ function instanciarVeiculo(num) {
     let veiculoAux;
     console.log("ID:", num);
     let id = num.toString();
-    let placa = input("Placa: ").toUpperCase();
-    let modelo = input("Modelo: ").toUpperCase();
-    let ano = input("Ano: ");
+    let placa = input("*Placa: ").toUpperCase();
+    let modelo = input("*Modelo: ").toUpperCase();
+    let ano = parseInt(input("*Ano: "));
     let doGoveno = input("É do governo? <S> para sim <outra tecla> para nao: ").toUpperCase();
     if (doGoveno == 'S') {
         console.log(`Desconto de ${e.getTaxaDescontoGov * 100}% aplicado`);
-        veiculoAux = new veiculoGoverno_1.VeiculoGoverno(id, placa, modelo, new Date(ano), e.getTaxaDescontoGov);
+        veiculoAux = new veiculoGoverno_1.VeiculoGoverno(id, placa, modelo, ano, e.getTaxaDescontoGov);
     }
     else {
-        veiculoAux = new veiculo_1.Veiculo(id, placa, modelo, new Date(ano));
+        veiculoAux = new veiculo_1.Veiculo(id, placa, modelo, ano);
     }
     return veiculoAux;
 }

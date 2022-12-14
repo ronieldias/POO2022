@@ -9,6 +9,8 @@ const naoPagoErro_1 = require("../excecoes/naoPagoErro");
 const veiculoJaEstacionadoErro_1 = require("../excecoes/veiculoJaEstacionadoErro");
 const veiculoNaoEstacionadoErro_1 = require("../excecoes/veiculoNaoEstacionadoErro");
 const moment_1 = __importDefault(require("moment"));
+const campoObrigatorioErro_1 = require("../excecoes/campoObrigatorioErro");
+const anoInvalidoErro_1 = require("../excecoes/anoInvalidoErro");
 moment_1.default.locale('pt-br');
 class Veiculo {
     _id;
@@ -21,6 +23,9 @@ class Veiculo {
     _valor = 0;
     _pagou = false;
     constructor(id, placa, modelo, ano) {
+        this.validarPlaca(placa);
+        this.validarModelo(modelo);
+        this.validarAno(ano);
         this._id = id;
         this._placa = placa;
         this._modelo = modelo;
@@ -77,7 +82,6 @@ class Veiculo {
         this.setEstacionado = true;
     }
     retirar(dataHora, valorHora) {
-        console.log('1', this.getEstacionado);
         if (!this.getEstacionado) {
             throw new veiculoNaoEstacionadoErro_1.VeiculoNaoEstacionadoErro("Erro: veiculo nao estacionado."); //excecao
         }
@@ -91,8 +95,9 @@ class Veiculo {
     calcularTempo() {
         let entrada = (0, moment_1.default)(this._dataHoraEntrada);
         let saida = (0, moment_1.default)(new Date());
-        let duration = moment_1.default.duration(saida.diff(entrada));
-        return Math.floor(duration.asHours()); //arredonda para baixo //opcao para cima Math.ceil()
+        let duracao = moment_1.default.duration(saida.diff(entrada));
+        //return Math.floor(duration.asHours()); //arredonda para baixo //opcao para cima Math.ceil()
+        return Math.ceil(duracao.asHours());
     }
     calcularValor(valorHora) {
         if (!this.getEstacionado) {
@@ -106,6 +111,29 @@ class Veiculo {
         }
         this.setValor = this.calcularValor(valorHora); //excecao
         this.setPagou = true;
+    }
+    validarPlaca(placa) {
+        if (placa.length < 5) {
+            throw new campoObrigatorioErro_1.CampoObrigatorioErro("Erro: campo PLACA não preenchido ou formato inválido\n(Regras: sem espaços e 5+ caracteres).");
+        }
+        for (let letra of placa) {
+            if (letra == ' ') {
+                throw new campoObrigatorioErro_1.CampoObrigatorioErro("Erro: campo PLACA não preenchido ou formato inválido\n(Regras: sem espaços e 5+ caracteres).");
+            }
+        }
+    }
+    validarModelo(modelo) {
+        if (modelo.length < 3) { //vazio, espaço, 3- caracteres
+            throw new campoObrigatorioErro_1.CampoObrigatorioErro("Erro: campo MODELO não preenchido ou formato inválido\n(Regras: 3+ caracteres)");
+        }
+    }
+    validarAno(ano) {
+        if (isNaN(ano) == true) { //vazio, espaço, letras
+            throw new campoObrigatorioErro_1.CampoObrigatorioErro("Erro: campo ANO não preenchido ou formato inválido.");
+        }
+        if (ano < 1950 || ano > new Date().getUTCFullYear() + 1) { //vide regras
+            throw new anoInvalidoErro_1.AnoInvalidoErro("Erro: ano inválido\n(Regras: deve estar entre 1950 e o ano atual +1).");
+        }
     }
 }
 exports.Veiculo = Veiculo;

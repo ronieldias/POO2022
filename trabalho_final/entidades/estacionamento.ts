@@ -70,14 +70,14 @@ class Estacionamento {
         
         return false;
     }
-
+    //corrigir!!!
     private placaDuplicada(placa: string): boolean {
         //patio
         if (this.getPatio.consultarPlaca(placa)) { return true; }
         //governo
-        if (this.getGoverno.consultarPlaca(placa)) { return true; }
+        //if (this.getGoverno.consultarPlaca(placa)) { return true; }
         //historico
-        if (this.getHistorico.consultarPlaca(placa)) { return true; }
+        //if (this.getHistorico.consultarPlaca(placa)) { return true; }
 
         return false;
     }
@@ -110,7 +110,8 @@ class Estacionamento {
         if (this.placaDuplicada(veiculo.getPlaca)) {
             throw new PlacaDuplicadaErro("Erro: placa duplicada no sistema."); //exceção
         }
-        veiculo.estacionar(moment(new Date("2022-12-11T22:00:00"))); //HORA MANUAL PARA TESTE
+        veiculo.estacionar(moment(new Date())); //COMENTAR PARA TESTE
+        //veiculo.estacionar(moment(new Date("2022-12-11T22:00:00"))); //MANUAL. DESCOMENTAR TESTE
         this.getPatio.inserirVeiculo(veiculo);
         this.setTotal = this.getTotal + 1;
     }

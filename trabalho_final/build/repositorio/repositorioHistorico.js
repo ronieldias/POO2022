@@ -6,11 +6,6 @@ class RepositorioHistorico {
     inserirVeiculo(veiculo) {
         this._veiculos.push(veiculo);
     }
-    inserirNveiculos(veiculos) {
-        for (let i = 0; i < veiculos.length; i++) {
-            this._veiculos.push(veiculos[i]);
-        }
-    }
     consultarIndiceVeiculo(id) {
         let indice = -1;
         for (let i = 0; i < this._veiculos.length; i++) {
@@ -34,6 +29,13 @@ class RepositorioHistorico {
         }
         return this._veiculos[indice];
     }
+    //
+    inserirNveiculos(veiculos) {
+        for (let i = 0; i < veiculos.length; i++) {
+            this._veiculos.push(veiculos[i]);
+        }
+    }
+    //
     retornaTodos() {
         return this._veiculos;
     }

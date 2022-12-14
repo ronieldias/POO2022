@@ -6,7 +6,7 @@ moment.locale('pt-br');
 class VeiculoGoverno extends Veiculo {
     private _taxaDesconto: number;
 
-    constructor(id: string, placa: string, modelo: string, ano: Date, taxaDesconto: number) {
+    constructor(id: string, placa: string, modelo: string, ano: number, taxaDesconto: number) {
         super(id, placa, modelo, ano);
         this._taxaDesconto = taxaDesconto;
     }

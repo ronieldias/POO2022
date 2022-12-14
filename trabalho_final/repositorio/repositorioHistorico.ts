@@ -8,12 +8,6 @@ class RepositorioHistorico implements InterfaceRepositorioHistorico {
         this._veiculos.push(veiculo);
     }
 
-    public inserirNveiculos(veiculos: Array<Veiculo>): void {
-        for (let i = 0; i < veiculos.length; i++) {
-            this._veiculos.push(veiculos[i]);
-        }
-    }
-
     public consultarIndiceVeiculo(id: string): number {
         let indice = -1;
         for (let i = 0; i < this._veiculos.length; i++) {
@@ -40,6 +34,14 @@ class RepositorioHistorico implements InterfaceRepositorioHistorico {
         return this._veiculos[indice];
     }
 
+    //
+    public inserirNveiculos(veiculos: Array<Veiculo>): void {
+        for (let i = 0; i < veiculos.length; i++) {
+            this._veiculos.push(veiculos[i]);
+        }
+    }   
+
+    //
     public retornaTodos(): Array<Veiculo> {
         return this._veiculos;
     }
