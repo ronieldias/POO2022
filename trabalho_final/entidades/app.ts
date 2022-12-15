@@ -7,8 +7,7 @@ import moment from "moment";
 moment.locale('pt-br');
 
 let input = prompt();
-let e: Estacionamento = new Estacionamento('01', 10.00, 15, 0.25);
-let idCont: number = 0; //controle
+let e: Estacionamento = new Estacionamento('01', 10.00, 3, 0.25);
 let opcao: string = '';
 
 do {
@@ -75,20 +74,17 @@ function estacionar() {
     console.log('               *** ESTACIONAR VEICULO ***')
     console.log('------------------------------------------------------------');
     try {
-        idCont++;
-        let veiculoAux = instanciarVeiculo(idCont); //captura
+        let veiculoAux = instanciarVeiculo(e.getContID+1); //captura
         console.log();
         let resp = input('CONFIRMAR? <S> para SIM <outra tecla> para NAO: ').toUpperCase();
         if (resp == 'S') {
             e.estacionar(veiculoAux); //captura
             console.log("Estacionado com sucesso!");
         } else {
-            idCont--;
             console.log("Cancelado!");
         }
     } catch (e: any) {
         if (e instanceof AplicacaoErro) {
-            idCont--;
             console.log(e.message);
         }
     }
@@ -244,7 +240,7 @@ function listarVeiculosPatio() {
     console.log('------------------------------------------------------------');
     console.log('               *** VEICULOS NO PATIO ***');
     console.log('------------------------------------------------------------');
-    let arrayAux = e.getPatio.retornaTodos()
+    let arrayAux = e.getPatio.retornaTodos();
     for (let i = 0; i < arrayAux.length; i++) {
         detalharVeiculo(arrayAux[i]);
         console.log('------------------------------------------------------------');
@@ -313,4 +309,3 @@ function detalharNveiculos(veiculos: Array<Veiculo>) {
         detalharVeiculo(veiculos[i]);
     }
 }
-

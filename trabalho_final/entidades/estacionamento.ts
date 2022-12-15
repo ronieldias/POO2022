@@ -17,6 +17,7 @@ class Estacionamento {
     private _capacidade: number;
     private _taxaDescontoGov: number;
     private _total: number = 0;
+    private _contID: number = 0;
 
     private _patio: RepositorioPatio = new RepositorioPatio();
     private _governo: RepositorioGoverno = new RepositorioGoverno();
@@ -57,6 +58,12 @@ class Estacionamento {
     }
     public get getHistorico() {
         return this._historico;
+    }
+    public get getContID(){
+        return this._contID;
+    }
+    public set setContID(x: number){
+        this._contID = x;
     }
 
     //demais metodos
@@ -111,9 +118,11 @@ class Estacionamento {
             throw new PlacaDuplicadaErro("Erro: placa duplicada no sistema."); //exceção
         }
         veiculo.estacionar(moment(new Date())); //COMENTAR PARA TESTE
-        //veiculo.estacionar(moment(new Date("2022-12-11T22:00:00"))); //MANUAL. DESCOMENTAR TESTE
+        //veiculo.estacionar(moment(new Date("2022-12-13T22:00:00"))); //MANUAL. DESCOMENTAR TESTE
         this.getPatio.inserirVeiculo(veiculo);
         this.setTotal = this.getTotal + 1;
+        this.setContID = this.getContID + 1;
+
     }
 
     public retirar(id: string) {

@@ -11,8 +11,7 @@ const prompt_sync_1 = __importDefault(require("prompt-sync"));
 const moment_1 = __importDefault(require("moment"));
 moment_1.default.locale('pt-br');
 let input = (0, prompt_sync_1.default)();
-let e = new estacionamento_1.Estacionamento('01', 10.00, 15, 0.25);
-let idCont = 0; //controle
+let e = new estacionamento_1.Estacionamento('01', 10.00, 3, 0.25);
 let opcao = '';
 do {
     console.clear();
@@ -77,8 +76,7 @@ function estacionar() {
     console.log('               *** ESTACIONAR VEICULO ***');
     console.log('------------------------------------------------------------');
     try {
-        idCont++;
-        let veiculoAux = instanciarVeiculo(idCont); //captura
+        let veiculoAux = instanciarVeiculo(e.getContID + 1); //captura
         console.log();
         let resp = input('CONFIRMAR? <S> para SIM <outra tecla> para NAO: ').toUpperCase();
         if (resp == 'S') {
@@ -86,13 +84,11 @@ function estacionar() {
             console.log("Estacionado com sucesso!");
         }
         else {
-            idCont--;
             console.log("Cancelado!");
         }
     }
     catch (e) {
         if (e instanceof aplicacaoErro_1.AplicacaoErro) {
-            idCont--;
             console.log(e.message);
         }
     }
