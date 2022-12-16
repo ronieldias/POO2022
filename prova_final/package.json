@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "moment": "^2.29.4",
+    "prompt-sync": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/prompt-sync": "^4.2.0"
+  }
+}
